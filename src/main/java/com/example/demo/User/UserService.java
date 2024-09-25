@@ -1,6 +1,7 @@
 package com.example.demo.User;
 
 import jakarta.transaction.Transactional;
+import net.sf.jsqlparser.statement.create.table.CreateTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class UserService {
     public List<UserOfPopster> getStudents(){
         return utenteRepository.findAll();
     }
+
 
     public void addNewUser(UserOfPopster user) {
         Optional<UserOfPopster> userByEmailOptional = utenteRepository.findUserByEmail(user.geteMail());

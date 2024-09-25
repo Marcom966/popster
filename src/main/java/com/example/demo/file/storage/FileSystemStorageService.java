@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
@@ -31,7 +32,7 @@ public class FileSystemStorageService implements StorageService {
 
         }
         this.rootLocation = Paths.get(properties.getLocation());
-        this.repo = repo;
+        //this.repo = repo;
     }
 
     @Override
@@ -40,7 +41,7 @@ public class FileSystemStorageService implements StorageService {
             if(file.isEmpty()){
                 throw new StorageException("Failed to store empty file");
             }
-            Path destinationFile = this.rootLocation.resolve(Paths.get(file.getOriginalFilename())).normalize().toAbsolutePath();
+            Path destinationFile = this.rootLocation.resolve(Paths.get(Objects.requireNonNull(file.getOriginalFilename()))).normalize().toAbsolutePath();
             if(!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())){
                 throw new StorageException("Cannot store file outside current directory");
             }

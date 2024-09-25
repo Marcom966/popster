@@ -24,6 +24,7 @@ public class UserController {
         return userService.getStudents();
     }
 
+
     @PostMapping
     public void registerNewUser(@RequestBody UserOfPopster user){
         userService.addNewUser(user);

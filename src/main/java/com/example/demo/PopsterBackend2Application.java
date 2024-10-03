@@ -18,8 +18,7 @@ public class PopsterBackend2Application {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("api/v1/user").allowedOrigins("http://localhost:8080");
-				registry.addMapping("api/v1/file").allowedOrigins("http://localhost:8080");
+				registry.addMapping("api/v1/file").allowedOrigins("http://localhost:2400");
 			}
 		};
 	}

@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequestMapping(path="api/v1/file")
 @CrossOrigin(origins = "http://localhost:4200")
 public class filecontroller {
+
     @Autowired
     private final StorageService filesService;
 

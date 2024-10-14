@@ -1,4 +1,4 @@
-package com.example.demo.file;
+/*package com.example.demo.file;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,4 +14,4 @@ public class FileUploadExceptionAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<responseMessage> handleMaxSizeException(MaxUploadSizeExceededException exc){
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body( new responseMessage("File too large"));
     }
-}
+}*/

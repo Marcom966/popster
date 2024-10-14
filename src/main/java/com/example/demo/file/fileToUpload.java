@@ -3,15 +3,16 @@ package com.example.demo.file;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Arrays;
 
 @Entity
-@Table
+@Table(name = "fileToUpload")
 public class fileToUpload {
     @Id
-    @SequenceGenerator(name="fileToUpload_sequence", allocationSize = 1, sequenceName = "fileToUpload_sequence")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "fileToUpload_sequence")
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name="uuid", strategy = "uuid2")
     private String id;
     private String fileName;
     private String type;

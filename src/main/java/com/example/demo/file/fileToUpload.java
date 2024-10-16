@@ -16,7 +16,8 @@ public class fileToUpload {
     private String id;
     private String fileName;
     private String type;
-    @Lob
+    @Basic
+    @Column(name = "file_size", nullable = false, columnDefinition = "LONGBLOB")
     private byte[] fileSize;
 
     public fileToUpload(String fileName, String type, byte[] fileSize) {
@@ -43,6 +44,7 @@ public class fileToUpload {
     public byte[] getFileSize() {
         return fileSize;
     }
+
 
     public void setId(String id) {
         this.id = id;

@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.stream.Stream;
 
 @Service
@@ -16,7 +18,7 @@ public class FileSystemStorageService {
     private storageRepo repo;
 
 
-    public fileToUpload store(MultipartFile file /*, fileToUpload fiLe*/) throws IOException{
+    public fileToUpload store(MultipartFile file) throws IOException{
       String filename = StringUtils.cleanPath(file.getOriginalFilename());
       fileToUpload fileUpload = new fileToUpload(filename, file.getContentType(), file.getBytes());
       return repo.save(fileUpload);

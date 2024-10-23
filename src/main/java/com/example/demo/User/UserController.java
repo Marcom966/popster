@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = {"api/v1/user", "api/v1/file"})
+@RequestMapping(value = "api/v1/user")
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 

@@ -24,7 +24,7 @@ public class filecontroller {
 
 
 
-    @PostMapping("/upload")
+    @PostMapping
     public ResponseEntity<responseMessage> uploadFiles(@RequestParam MultipartFile file){
         String message = "";
         try{
@@ -38,7 +38,7 @@ public class filecontroller {
     }
 
 
-    @GetMapping("/files")
+    @GetMapping
     public  ResponseEntity<List<fileResponse>> getListFiles(){
         List<fileResponse> files = filesService.getAllFiles().map(dbFile->{
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/files/").path(dbFile.getId()).toUriString();

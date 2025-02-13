@@ -25,7 +25,7 @@ public class filecontroller {
 
 
     @PostMapping
-    public ResponseEntity<responseMessage> uploadFiles(@RequestParam("file") MultipartFile file, @RequestParam("userName") String user, @RequestParam("idFilecd ") String id){
+    public ResponseEntity<responseMessage> uploadFiles(@RequestParam("file") MultipartFile file, @RequestParam("userName") String user, @RequestParam("idFile") String id){
         String message = "";
         try{
             filesService.store(file, user, id);

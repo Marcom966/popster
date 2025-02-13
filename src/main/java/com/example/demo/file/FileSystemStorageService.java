@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
@@ -18,9 +19,9 @@ public class FileSystemStorageService {
     private storageRepo repo;
 
 
-    public fileToUpload store(MultipartFile file) throws IOException{
-      String filename = StringUtils.cleanPath(file.getOriginalFilename());
-      fileToUpload fileUpload = new fileToUpload(filename, file.getContentType(), file.getBytes());
+    public fileToUpload store(MultipartFile file, String user, String id) throws IOException{
+        String filename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+      fileToUpload fileUpload = new fileToUpload(id, user, filename, file.getContentType(), file.getBytes());
       return repo.save(fileUpload);
     }
 
@@ -31,5 +32,6 @@ public class FileSystemStorageService {
     public Stream<fileToUpload> getAllFiles(){
         return repo.findAll().stream();
     }
+
 }
 

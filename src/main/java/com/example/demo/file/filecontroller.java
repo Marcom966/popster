@@ -25,10 +25,10 @@ public class filecontroller {
 
 
     @PostMapping
-    public ResponseEntity<responseMessage> uploadFiles(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<responseMessage> uploadFiles(@RequestParam("file") MultipartFile file, @RequestParam("userName") String user, @RequestParam("idFilecd ") String id){
         String message = "";
         try{
-            filesService.store(file);
+            filesService.store(file, user, id);
             message = "File Uploaded successfully: "+file.getOriginalFilename();
             return  ResponseEntity.status(HttpStatus.OK).body(new responseMessage(message));
         }catch (Exception e){

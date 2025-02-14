@@ -42,12 +42,12 @@ public class filecontroller {
     public  ResponseEntity<List<fileResponse>> getListFiles(){
         List<fileResponse> files = filesService.getAllFiles().map(dbFile->{
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/files/").path(dbFile.getId()).toUriString();
-            return new fileResponse(dbFile.getFileName(), dbFile.getFileSize().length, dbFile.getType(), fileDownloadUri);
+            return new fileResponse(dbFile.getFileName(), dbFile.getFileSize().length, fileDownloadUri, dbFile.getType(), dbFile.getId(), dbFile.getUsernName());
         }).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
-    @GetMapping("/files/{id}")
+    @GetMapping("api/v1/file/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable String id){
         fileToUpload file = filesService.getFile(id);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFileName()+"\"").body(file.getFileSize());

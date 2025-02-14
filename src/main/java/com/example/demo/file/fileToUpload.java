@@ -11,8 +11,6 @@ import java.util.Arrays;
 @Table(name = "fileToUpload")
 public class fileToUpload {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name="uuid", strategy = "uuid2")
     private String id;
     private String fileName;
     private String type;

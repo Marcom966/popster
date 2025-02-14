@@ -48,9 +48,9 @@ public class filecontroller {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<byte[]> getFile(@PathVariable String id){
+    public ResponseEntity<fileToUpload> getFile(@PathVariable String id){
         fileToUpload file = filesService.getFile(id);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFileName()+"\"").body(file.getFileSize());
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFileName()+"\"").body(file);
     }
 
 

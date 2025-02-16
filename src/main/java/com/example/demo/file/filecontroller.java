@@ -41,16 +41,18 @@ public class filecontroller {
     @GetMapping
     public  ResponseEntity<List<fileResponse>> getListFiles(){
         List<fileResponse> files = filesService.getAllFiles().map(dbFile->{
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/files/").path(dbFile.getId()).toUriString();
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file").path(dbFile.getId()).toUriString();
             return new fileResponse(dbFile.getFileName(), dbFile.getFileSize().length, fileDownloadUri, dbFile.getType(), dbFile.getId(), dbFile.getUsernName());
         }).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<fileToUpload> getFile(@PathVariable String id){
+    public ResponseEntity<fileResponse> getFile(@PathVariable String id){
         fileToUpload file = filesService.getFile(id);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFileName()+"\"").body(file);
+        String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file").path(file.getId()).toUriString();
+        fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName());
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFileName()+"\"").body(fileRes);
     }
 
 

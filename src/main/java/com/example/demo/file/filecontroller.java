@@ -1,11 +1,20 @@
 package com.example.demo.file;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,11 +57,26 @@ public class filecontroller {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<fileResponse> getFile(@PathVariable String id){
-        fileToUpload file = filesService.getFile(id);
-        String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(file.getId()).toUriString();
-        fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName());
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFileName()+"\"").body(fileRes);
+    public ResponseEntity<Resource> getFile(@PathVariable String id) {
+        String contentType;
+        try {
+            fileToUpload file = filesService.getFile(id);
+            Path filePath = Paths.get("uploads").resolve(file.getFileName()).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if (!resource.exists() || !resource.isReadable()) {
+                return ResponseEntity.notFound().build();
+            }
+            contentType = Files.probeContentType(filePath);
+            if (contentType == null) {
+                contentType = "audio/mpeg";
+            }
+            String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(file.getId()).toUriString();
+            fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName());
+
+            return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"").body(resource);
+        } catch (IOException ex) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
 

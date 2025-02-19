@@ -56,15 +56,16 @@ public class filecontroller {
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/info")
     public ResponseEntity<fileResponse> getFileJson(@PathVariable String id) {
+        fileToUpload file = filesService.getFile(id);
         String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file").path(file.getId()).toUriString();
         fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"").body(fileRes);
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/download")
     public ResponseEntity<Resource> getFile(@PathVariable String id) {
         String contentType;
         try {

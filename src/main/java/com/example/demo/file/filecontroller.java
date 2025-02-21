@@ -59,7 +59,7 @@ public class filecontroller {
     @GetMapping("/{id}/info")
     public ResponseEntity<fileResponse> getFileJson(@PathVariable String id) {
         fileToUpload file = filesService.getFile(id);
-        String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file").path(file.getId()).toUriString();
+        String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(file.getId()).toUriString();
         fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"").body(fileRes);
     }
@@ -79,8 +79,6 @@ public class filecontroller {
             if (contentType == null) {
                 contentType = "audio/mpeg";
             }
-            String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(file.getId()).toUriString();
-            fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName());
 
             return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"").body(resource);
         } catch (IOException ex) {

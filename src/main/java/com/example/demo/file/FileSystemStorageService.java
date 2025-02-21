@@ -26,7 +26,7 @@ public class FileSystemStorageService {
     }
 
     public fileToUpload getFile(String id){
-        return repo.findById(id).get();
+        return repo.findById(id).orElseThrow(()-> new RuntimeException("file not found with id: "+id));
     }
 
     public Stream<fileToUpload> getAllFiles(){

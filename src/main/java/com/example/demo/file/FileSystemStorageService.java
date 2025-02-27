@@ -25,7 +25,19 @@ public class FileSystemStorageService {
 
     public fileToUpload store(MultipartFile file, String user, String id) throws IOException{
         String filename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-      fileToUpload fileUpload = new fileToUpload(id, user, filename, file.getContentType(), file.getBytes());
+        String contentType = file.getContentType();
+        assert contentType != null;
+        if(contentType.contains("audiofile")){
+            String fileNameNew = file.getOriginalFilename();
+            if(fileNameNew.contains("mp3")){
+                contentType="audio/mpeg";
+            } else if (fileNameNew.contains("wav")) {
+                contentType="audio/wav";
+            } else if (fileNameNew.contains("ogg")) {
+                contentType="audio/ogg";
+            }
+        }
+      fileToUpload fileUpload = new fileToUpload(id, user, filename, contentType, file.getBytes());
       return repo.save(fileUpload);
     }
 

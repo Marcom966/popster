@@ -27,7 +27,7 @@ public class FileSystemStorageService {
         String filename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         String contentType = file.getContentType();
         assert contentType != null;
-        if(contentType.contains("audiofile")){
+        if(contentType.equals("audiofile")){
             String fileNameNew = file.getOriginalFilename();
             if(fileNameNew.contains("mp3")){
                 contentType="audio/mpeg";

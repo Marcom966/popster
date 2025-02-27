@@ -15,14 +15,6 @@ public class fileToUpload {
     private String fileName;
     private String type;
 
-    public String getUsernName() {
-        return usernName;
-    }
-
-    public void setUsernName(String usernName) {
-        this.usernName = usernName;
-    }
-
     private String usernName;
     @Basic
     @Column(name = "file_size", nullable = false, columnDefinition = "LONGBLOB")
@@ -37,6 +29,14 @@ public class fileToUpload {
     }
 
     public fileToUpload() {
+    }
+
+    public String getUsernName() {
+        return usernName;
+    }
+
+    public void setUsernName(String usernName) {
+        this.usernName = usernName;
     }
 
     public String getId() {

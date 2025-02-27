@@ -54,5 +54,9 @@ public class FileSystemStorageService {
         return repo.findAll().stream();
     }
 
+    public fileToUpload getTheFile(String id){
+        return repo.findById(id).orElseThrow(()-> new RuntimeException("file not found with id: "+id));
+    }
+
 }
 

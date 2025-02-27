@@ -51,18 +51,18 @@ public class filecontroller {
     public  ResponseEntity<List<fileResponse>> getListFiles(){
         List<fileResponse> files = filesService.getAllFiles().map(dbFile->{
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(dbFile.getId()).toUriString();
-            return new fileResponse(dbFile.getFileName(), dbFile.getFileSize().length, fileDownloadUri, dbFile.getType(), dbFile.getId(), dbFile.getUsernName());
+            return new fileResponse(dbFile.getFileName(), dbFile.getFileSize().length, fileDownloadUri, dbFile.getType(), dbFile.getId(), dbFile.getUsernName(), dbFile.getFileSize());
         }).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<byte[]> getFileJson(@PathVariable String id) {
-        return filesService.getFile(id);
-        //fileToUpload file = filesService.getFile(id);
-        //String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(file.getId()).toUriString();
-        //fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName());
-        //return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"").body(fileRes);
+    public ResponseEntity<fileResponse> getFileJson(@PathVariable String id) {
+       ResponseEntity<byte[]> fileGeneral = filesService.getFile(id);
+       fileToUpload file = filesService.getTheFile(id);
+        String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(file.getId()).toUriString();
+        fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName(), fileGeneral.getBody());
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"").body(fileRes);
     }
 
 

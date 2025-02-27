@@ -1,5 +1,8 @@
 package com.example.demo.file;
 
+import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
+
 public class fileResponse {
     private String name;
     private String url;
@@ -7,17 +10,31 @@ public class fileResponse {
     private String id;
     private String usernName;
     private long size;
+    @Basic
+    @Column(name = "file_size", nullable = false, columnDefinition = "LONGBLOB")
+    private byte[] data;
 
-    public fileResponse(String name, long size, String url, String type, String id, String usernName) {
+
+    public fileResponse(String name, long size, String url, String type, String id, String usernName, byte[] data) {
         this.name = name;
         this.size = size;
         this.url = url;
         this.id = id;
         this.usernName = usernName;
         this.type = type;
+        this.data = data;
     }
 
-    public fileResponse(String fileName, int length, String type, String id, String usernName, Object o, String fileDownloadUri) {
+    public fileResponse(String fileName, int length, String type, String id, String usernName, Object o, String fileDownloadUri, byte[] data) {
+    }
+
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
     public String getName() {

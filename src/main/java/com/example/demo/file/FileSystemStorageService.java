@@ -38,7 +38,7 @@ public class FileSystemStorageService {
             }else{
                 contentType="not recognized";
             }
-        }else throw new RuntimeException("file was in an uncompatible format");
+        }
       fileToUpload fileUpload = new fileToUpload(id, user, filename, contentType, file.getBytes());
       return repo.save(fileUpload);
     }

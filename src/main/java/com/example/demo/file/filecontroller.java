@@ -66,12 +66,13 @@ public class filecontroller {
     }
 
 
-    /*@GetMapping("/{id}/download")
+    @GetMapping("/{id}/download")
     public ResponseEntity<Resource> getFile(@PathVariable String id) {
         String contentType;
         try {
-            fileToUpload file = filesService.getFile(id);
-            Path filePath = Paths.get("uploads").resolve(file.getFileName()).normalize();
+            ResponseEntity<byte[]> file = filesService.getFile(id);
+            fileToUpload fileSecond = filesService.getTheFile(id);
+            Path filePath = Paths.get("uploads").resolve(fileSecond.getFileName()).normalize();
             Resource resource = new UrlResource(filePath.toUri());
             if (!resource.exists() || !resource.isReadable()) {
                 return ResponseEntity.notFound().build();
@@ -81,11 +82,11 @@ public class filecontroller {
                 contentType = "audio/mpeg";
             }
 
-            return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"").body(resource);
+            return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileSecond.getFileName() + "\"").body(resource);
         } catch (IOException ex) {
             return ResponseEntity.internalServerError().build();
-        }*/
-
+        }
+    }
 
 
 

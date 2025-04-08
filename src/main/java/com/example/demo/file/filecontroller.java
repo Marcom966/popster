@@ -70,9 +70,11 @@ public class filecontroller {
     public ResponseEntity<Resource> getFile(@PathVariable String id) {
         String contentType;
         try {
-            ResponseEntity<byte[]> file = filesService.getFile(id);
+            //ResponseEntity<byte[]> file = filesService.getFile(id);
             fileToUpload fileSecond = filesService.getTheFile(id);
-            Path filePath = Paths.get("uploads").resolve(fileSecond.getFileName()).normalize();
+            String fileparth = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(fileSecond.getId()).toUriString();
+            Path filePath = Paths.get(fileparth).resolve(fileSecond.getFileName()).normalize();
+                    //Paths.get("http://localhost:8080/api/v1/file/"+id).resolve(fileSecond.getFileName()).normalize();
             Resource resource = new UrlResource(filePath.toUri());
             if (!resource.exists() || !resource.isReadable()) {
                 return ResponseEntity.notFound().build();

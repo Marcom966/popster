@@ -70,19 +70,10 @@ public class filecontroller {
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {
         String contentType;
         try {
-            //ResponseEntity<byte[]> file = filesService.getFile(id);
             fileToUpload fileSecond = filesService.getTheFile(id);
-            /*String fileparth = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(fileSecond.getId()).toUriString();
-            Path filePath = Paths.get(fileparth).resolve(fileSecond.getFileName()).normalize();
-                    //Paths.get("http://localhost:8080/api/v1/file/"+id).resolve(fileSecond.getFileName()).normalize();
-            Resource resource = new UrlResource(filePath.toUri());*/
             if (fileSecond == null || fileSecond.getFileSize() == null) {
                 return ResponseEntity.notFound().build();
             }
-            //contentType = Files.probeContentType(filePath);
-            /*if (contentType == null) {
-                contentType = "audio/mpeg";
-            }*/
 
             return ResponseEntity.ok().contentType(MediaType.parseMediaType(fileSecond.getType())).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileSecond.getFileName() + "\"").body(fileSecond.getFileSize());
         } catch (Exception ex) {

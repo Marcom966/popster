@@ -74,8 +74,9 @@ public class filecontroller {
             if (fileSecond == null || fileSecond.getFileSize() == null) {
                 return ResponseEntity.notFound().build();
             }
+            MediaType mediaType = MediaType.parseMediaType("audio/mpeg");
 
-            return ResponseEntity.ok().contentType(MediaType.parseMediaType(fileSecond.getType())).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileSecond.getFileName() + "\"").body(fileSecond.getFileSize());
+            return ResponseEntity.ok().contentType(mediaType).body(fileSecond.getFileSize());
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }

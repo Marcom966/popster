@@ -24,6 +24,11 @@ public class UserController {
         return userService.getStudents();
     }
 
+    @GetMapping(path = "{user_name}")
+    public String getSpecificUser(String user_name){
+        String specificUser = userService.getSpecificUser(user_name).toString();
+        return specificUser;
+    }
 
     @PostMapping
     public void registerNewUser(@RequestBody UserOfPopster user){

@@ -1,11 +1,9 @@
 package com.example.demo.User;
 
 import jakarta.transaction.Transactional;
-import net.sf.jsqlparser.statement.create.table.CreateTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,6 +30,10 @@ public class UserService {
         }
         utenteRepository.save(user);
 
+    }
+    public UserOfPopster getSpecificUser(String user_name){
+        Optional<UserOfPopster> userName = utenteRepository.findUserByUserName(user_name);
+        return userName.orElse(null);
     }
 
     public void deleteUser(Long id){

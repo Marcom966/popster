@@ -9,13 +9,15 @@ public class fileResponse {
     private String type;
     private String id;
     private String usernName;
+    private String artistName;
+    private String songName;
     private long size;
     @Basic
     @Column(name = "file_size", nullable = false, columnDefinition = "LONGBLOB")
     private byte[] data;
 
 
-    public fileResponse(String name, long size, String url, String type, String id, String usernName, byte[] data) {
+    public fileResponse(String name, long size, String url, String type, String id, String usernName, byte[] data, String artistName, String songName) {
         this.name = name;
         this.size = size;
         this.url = url;
@@ -23,11 +25,21 @@ public class fileResponse {
         this.usernName = usernName;
         this.type = type;
         this.data = data;
+        this.artistName = artistName;
+        this.songName = songName;
     }
 
-    public fileResponse(String fileName, int length, String type, String id, String usernName, Object o, String fileDownloadUri, byte[] data) {
+    public fileResponse(String fileName, int length, String type, String id, String usernName, Object o, String fileDownloadUri, byte[] data, String artistName, String songName) {
     }
 
+
+    public String getArtistName(){return artistName;};
+
+    public void setArtistName(String artistName){this.artistName = artistName;};
+
+    public String getSongName(){return songName;};
+
+    public void  setSongName(String songName){this.songName = songName;};
 
     public byte[] getData() {
         return data;

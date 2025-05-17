@@ -23,7 +23,7 @@ public class FileSystemStorageService {
     private storageRepo repo;
 
 
-    public fileToUpload store(MultipartFile file, String user, String id) throws IOException{
+    public fileToUpload store(MultipartFile file, String user, String id, String artistName, String songName) throws IOException{
         String filename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         String contentType = file.getContentType();
         assert contentType != null;
@@ -39,7 +39,7 @@ public class FileSystemStorageService {
                 contentType="not recognized";
             }
         }
-      fileToUpload fileUpload = new fileToUpload(id, user, filename, contentType, file.getBytes());
+      fileToUpload fileUpload = new fileToUpload(id, user, filename, contentType, file.getBytes(), artistName, songName);
       return repo.save(fileUpload);
     }
 

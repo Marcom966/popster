@@ -14,18 +14,21 @@ public class fileToUpload {
     private String id;
     private String fileName;
     private String type;
-
+    private String artistName;
+    private String songName;
     private String usernName;
     @Basic
     @Column(name = "file_size", nullable = false, columnDefinition = "LONGBLOB")
     private byte[] fileSize;
 
-    public fileToUpload(String id, String userName, String fileName, String type, byte[] fileSize) {
+    public fileToUpload(String id, String userName, String fileName, String type, byte[] fileSize, String artistName, String songName) {
         this.fileName = fileName;
         this.type = type;
         this.fileSize = fileSize;
         this.usernName = userName;
         this.id = id;
+        this.artistName = artistName;
+        this.songName = songName;
     }
 
     public fileToUpload() {
@@ -33,10 +36,6 @@ public class fileToUpload {
 
     public String getUsernName() {
         return usernName;
-    }
-
-    public void setUsernName(String usernName) {
-        this.usernName = usernName;
     }
 
     public String getId() {
@@ -55,6 +54,11 @@ public class fileToUpload {
         return fileSize;
     }
 
+    public String getArtistName(){return  artistName;};
+
+    public String getSongName(){return  songName;};
+
+    public void setArtistName(String artistName){this.artistName = artistName;};
 
     public void setId(String id) {
         this.id = id;
@@ -70,5 +74,11 @@ public class fileToUpload {
 
     public void setFileSize(byte[] fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public void setSongName(String songName){this.songName = songName;};
+
+    public void setUsernName(String usernName) {
+        this.usernName = usernName;
     }
 }

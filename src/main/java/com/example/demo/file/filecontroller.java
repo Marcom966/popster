@@ -34,10 +34,10 @@ public class filecontroller {
 
 
     @PostMapping
-    public ResponseEntity<responseMessage> uploadFiles(@RequestParam("file") MultipartFile file, @RequestParam("userName") String user, @RequestParam("idFile") String id){
+    public ResponseEntity<responseMessage> uploadFiles(@RequestParam("file") MultipartFile file, @RequestParam("userName") String user, @RequestParam("idFile") String id, @RequestParam("artist_name") String artistName, @RequestParam("song_name") String songName){
         String message = "";
         try{
-            filesService.store(file, user, id);
+            filesService.store(file, user, id, artistName, songName);
             message = "File Uploaded successfully: "+file.getOriginalFilename();
             return  ResponseEntity.status(HttpStatus.OK).body(new responseMessage(message));
         }catch (Exception e){
@@ -51,7 +51,7 @@ public class filecontroller {
     public  ResponseEntity<List<fileResponse>> getListFiles(){
         List<fileResponse> files = filesService.getAllFiles().map(dbFile->{
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(dbFile.getId()).toUriString();
-            return new fileResponse(dbFile.getFileName(), dbFile.getFileSize().length, fileDownloadUri, dbFile.getType(), dbFile.getId(), dbFile.getUsernName(), dbFile.getFileSize());
+            return new fileResponse(dbFile.getFileName(), dbFile.getFileSize().length, fileDownloadUri, dbFile.getType(), dbFile.getId(), dbFile.getUsernName(), dbFile.getFileSize(), dbFile.getArtistName(), dbFile.getSongName());
         }).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
@@ -61,7 +61,7 @@ public class filecontroller {
        ResponseEntity<byte[]> fileGeneral = filesService.getFile(id);
        fileToUpload file = filesService.getTheFile(id);
         String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(file.getId()).toUriString();
-        fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName(), fileGeneral.getBody());
+        fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName(), fileGeneral.getBody(), file.getArtistName(), file.getSongName());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"").body(fileRes);
     }
 

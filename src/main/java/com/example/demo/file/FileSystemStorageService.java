@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -21,6 +23,16 @@ public class FileSystemStorageService {
 
     @Autowired
     private storageRepo repo;
+
+    private final Path root = Paths.get("uploads");
+
+    public void init(){
+        try{
+            Files.createDirectories(root);
+        } catch (IOException e){
+            throw new RuntimeException("Could not initiate directories for uploads");
+        }
+    }
 
 
     public fileToUpload store(MultipartFile file, String user, String id, String artistName, String songName) throws IOException{
@@ -58,6 +70,15 @@ public class FileSystemStorageService {
 
     public fileToUpload getTheFile(String id){
         return repo.findById(id).orElseThrow(()-> new RuntimeException("file not found with id: "+id));
+    }
+
+    public boolean delete (String id) {
+        try {
+            Path file = root.resolve(id);
+            return Files.deleteIfExists(file);
+        } catch (IOException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
     }
 
 }

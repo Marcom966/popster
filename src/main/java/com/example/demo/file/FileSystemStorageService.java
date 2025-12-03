@@ -26,13 +26,7 @@ public class FileSystemStorageService {
 
     //private final Path root = Paths.get("uploads");
 
-    public void init(){
-        try{
-            Files.createDirectories(root);
-        } catch (IOException e){
-            throw new RuntimeException("Could not initiate directories for uploads");
-        }
-    }
+
 
 
     public fileToUpload store(MultipartFile file, String user, String id, String artistName, String songName) throws IOException{

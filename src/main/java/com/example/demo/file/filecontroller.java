@@ -12,10 +12,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -83,19 +80,20 @@ public class filecontroller {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<responseMessage> deleteFile(@PathVariable String filename){
+    public ResponseEntity<responseMessage> deleteFile(@PathVariable String id){
         String message = "";
-        try{
-            boolean existed = filesService.delete(filename);
-            if(existed){
-                message = "File deleted successfully"+filename;
-                return ResponseEntity.status(HttpStatus.OK).body(new responseMessage(message));
+        fileToUpload filetoDelete = filesService.getTheFile(id);
+        try {
+            if (filetoDelete != null) {
+                filesService.delete(id);
+                message = "File with id " + id + "has been successfuly deleted!";
+            } else {
+                message = "Could not delete file with id: " + id;
             }
-            message = "The file does not exists";
+            return ResponseEntity.status(HttpStatus.OK).body(new responseMessage(message));
+        }catch (Error e){
+            message = "there was an error: "+e.getMessage();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new responseMessage(message));
-        } catch (Exception e) {
-            message = "Could not delete the file: "+filename+"Error: "+e.getMessage();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new responseMessage(message));
         }
     }
 

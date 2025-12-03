@@ -24,7 +24,7 @@ public class FileSystemStorageService {
     @Autowired
     private storageRepo repo;
 
-    private final Path root = Paths.get("uploads");
+    //private final Path root = Paths.get("uploads");
 
     public void init(){
         try{
@@ -72,13 +72,10 @@ public class FileSystemStorageService {
         return repo.findById(id).orElseThrow(()-> new RuntimeException("file not found with id: "+id));
     }
 
-    public boolean delete (String id) {
-        try {
-            Path file = root.resolve(id);
-            return Files.deleteIfExists(file);
-        } catch (IOException e) {
-            throw new RuntimeException("Error: " + e.getMessage());
-        }
+    public void delete (String id) {
+        Optional<fileToUpload> fileToDelete = repo.findById(id);
+        fileToDelete.ifPresent(deleteFile -> repo.delete(deleteFile));
+
     }
 
 }

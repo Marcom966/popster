@@ -89,11 +89,12 @@ public class filecontroller {
                 message = "File with id " + id + "has been successfuly deleted!";
             } else {
                 message = "Could not delete file with id: " + id;
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new responseMessage(message));
             }
             return ResponseEntity.status(HttpStatus.OK).body(new responseMessage(message));
         }catch (Error e){
             message = "there was an error: "+e.getMessage();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new responseMessage(message));
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new responseMessage(message));
         }
     }
 

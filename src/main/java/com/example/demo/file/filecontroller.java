@@ -86,7 +86,7 @@ public class filecontroller {
         try {
             if (filetoDelete != null) {
                 filesService.delete(id);
-                message = "File with id " + id + "has been successfuly deleted!";
+                message = "File with id " + id + "has been successfully deleted!";
             } else {
                 message = "Could not delete file with id: " + id;
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new responseMessage(message));

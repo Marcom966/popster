@@ -73,17 +73,10 @@ public class FileSystemStorageService {
     }
 
     public fileToUpload updateFile(String id, String artistName, String songName){
-        Optional<fileToUpload> filetoUpdate = repo.findById(id);
-        fileToUpload file = null;
-        if(filetoUpdate.isPresent()){
-            file = filetoUpdate.get();
-            file.setArtistName(artistName);
-            file.setSongName(songName);
-
-        }else{
-            throw new RuntimeException();
-        };
-        return file;
+        fileToUpload filetoUpdate = repo.findById(id).orElseThrow(()-> new RuntimeException("File not found"));
+        filetoUpdate.setArtistName(artistName);
+        filetoUpdate.setSongName(songName);
+        return repo.save(filetoUpdate);
     }
 
 }

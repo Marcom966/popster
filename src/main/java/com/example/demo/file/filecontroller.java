@@ -99,7 +99,7 @@ public class filecontroller {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<fileToUpload> updateFile(@PathVariable String id, @PathVariable String artistName, @PathVariable String songName){
+    public ResponseEntity<fileToUpload> updateFile(@PathVariable String id, @RequestParam("artistName") String artistName, @RequestParam("songName") String songName){
         fileToUpload fileToChange = filesService.updateFile(id, artistName, songName);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachments; filename=\""+fileToChange.getFileName()+"\"").body(fileToChange);
 

@@ -98,8 +98,8 @@ public class filecontroller {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<fileToUpload> updateFile(@PathVariable String id, @RequestParam("artistName") String artistName, @RequestParam("songName") String songName){
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<fileToUpload> updateFile(@PathVariable String id, @RequestPart("artistName") String artistName, @RequestPart("songName") String songName){
         fileToUpload fileToChange = filesService.updateFile(id, artistName, songName);
         return ResponseEntity.ok(fileToChange);
 

@@ -25,8 +25,8 @@ public class UserController {
     }
 
     @GetMapping(path = "{user_name}")
-    public String getSpecificUser(@PathVariable String user_name){
-        return userService.getSpecificUser(user_name).toString();
+    public UserOfPopster getSpecificUser(@PathVariable String user_name){
+        return userService.getSpecificUser(user_name);
 
     }
 

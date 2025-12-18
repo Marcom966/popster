@@ -21,11 +21,12 @@ public class UserOfPopster {
     private String surname;
     private LocalDate Birth;
     private String eMail;
+    private String Role;
     @Transient
     private Integer age;
 
 
-    public UserOfPopster(Long user_id, String user_name, String password, String name, String surname, LocalDate birth, String eMail, String typeOfUser) {
+    public UserOfPopster(Long user_id, String user_name, String password, String name, String surname, LocalDate birth, String eMail, String typeOfUser, String role) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.password = password;
@@ -34,12 +35,13 @@ public class UserOfPopster {
         Birth = birth;
         this.eMail = eMail;
         this.typeOfUser = typeOfUser;
+        this.Role = role;
     }
 
     public UserOfPopster() {
     }
 
-    public UserOfPopster(String user_name, String password, String name, String surname, LocalDate birth, String eMail, String typeOfUser) {
+    public UserOfPopster(String user_name, String password, String name, String surname, LocalDate birth, String eMail, String typeOfUser, String role) {
         this.user_name = user_name;
         this.password = password;
         this.name = name;
@@ -47,17 +49,7 @@ public class UserOfPopster {
         Birth = birth;
         this.eMail = eMail;
         this.typeOfUser = typeOfUser;
-    }
-
-    public String getTypeOfUser(){
-        return typeOfUser;
-    }
-    public Integer getAge() {
-        return Period.between(this.Birth, LocalDate.now()).getYears();
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
+        this.Role = role;
     }
 
     public Long getUser_id() {
@@ -66,6 +58,14 @@ public class UserOfPopster {
 
     public void setUser_id(Long user_id) {
         this.user_id = user_id;
+    }
+
+    public String getTypeOfUser() {
+        return typeOfUser;
+    }
+
+    public void setTypeOfUser(String typeOfUser) {
+        this.typeOfUser = typeOfUser;
     }
 
     public String getUser_name() {
@@ -100,10 +100,6 @@ public class UserOfPopster {
         this.surname = surname;
     }
 
-    public void setTypeOfUser(String typeOfUser){
-        this.typeOfUser = typeOfUser;
-    }
-
     public LocalDate getBirth() {
         return Birth;
     }
@@ -111,6 +107,24 @@ public class UserOfPopster {
     public void setBirth(LocalDate birth) {
         Birth = birth;
     }
+
+    public String getRole() {
+        return Role;
+    }
+
+    public void setRole(String role) {
+        Role = role;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+
 
     public String geteMail() {
         return eMail;
@@ -122,26 +136,29 @@ public class UserOfPopster {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserOfPopster userOfPopster)) return false;
-        return Objects.equals(getUser_id(), userOfPopster.getUser_id()) && Objects.equals(getUser_name(), userOfPopster.getUser_name()) && Objects.equals(getPassword(), userOfPopster.getPassword()) && Objects.equals(getName(), userOfPopster.getName()) && Objects.equals(getSurname(), userOfPopster.getSurname()) && Objects.equals(getBirth(), userOfPopster.getBirth()) && Objects.equals(geteMail(), userOfPopster.geteMail());
+        if (o == null || getClass() != o.getClass()) return false;
+        UserOfPopster that = (UserOfPopster) o;
+        return Objects.equals(getUser_id(), that.getUser_id()) && Objects.equals(getTypeOfUser(), that.getTypeOfUser()) && Objects.equals(getUser_name(), that.getUser_name()) && Objects.equals(getPassword(), that.getPassword()) && Objects.equals(getName(), that.getName()) && Objects.equals(getSurname(), that.getSurname()) && Objects.equals(getBirth(), that.getBirth()) && Objects.equals(geteMail(), that.geteMail()) && Objects.equals(getRole(), that.getRole()) && Objects.equals(getAge(), that.getAge());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUser_id(), getUser_name(), getPassword(), getName(), getSurname(), getBirth(), geteMail());
+        return Objects.hash(getUser_id(), getTypeOfUser(), getUser_name(), getPassword(), getName(), getSurname(), getBirth(), geteMail(), getRole(), getAge());
     }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserOfPopster{" +
                 "user_id=" + user_id +
+                ", typeOfUser='" + typeOfUser + '\'' +
                 ", user_name='" + user_name + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", Birth=" + Birth +
                 ", eMail='" + eMail + '\'' +
+                ", Role='" + Role + '\'' +
+                ", age=" + age +
                 '}';
     }
 }

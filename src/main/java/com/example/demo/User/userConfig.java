@@ -14,9 +14,9 @@ public class userConfig {
     @Bean
     CommandLineRunner commandLineRunner(UtenteRepository utenteRepository){
         return args -> {
-            UserOfPopster Marco = new UserOfPopster("Marc0", "Marco1A3B", "Marco", "Meneghetti", LocalDate.of(1996, 1, 12), "marcom962015@gmail.com", "user");
-            UserOfPopster Simone = new UserOfPopster("Dan1", "Dan186", "Daniele", "Parapiglia", LocalDate.of(1997, 6, 24), "dani1@gmaile.com","user");
-            UserOfPopster Gianni = new UserOfPopster("Giann1", "xFerRecordsPass", "Gianni", "Roberti", LocalDate.of(1875,10, 23), "gianni.roberti@FXRECORDS.com","Vendor");
+            UserOfPopster Marco = new UserOfPopster("Marc0", "Marco1A3B", "Marco", "Meneghetti", LocalDate.of(1996, 1, 12), "marcom962015@gmail.com", "user","admin");
+            UserOfPopster Simone = new UserOfPopster("Dan1", "Dan186", "Daniele", "Parapiglia", LocalDate.of(1997, 6, 24), "dani1@gmaile.com","user","manager");
+            UserOfPopster Gianni = new UserOfPopster("Giann1", "xFerRecordsPass", "Gianni", "Roberti", LocalDate.of(1875,10, 23), "gianni.roberti@FXRECORDS.com","Vendor","admin");
             utenteRepository.saveAll(List.of(Marco, Simone, Gianni));
         };
     }

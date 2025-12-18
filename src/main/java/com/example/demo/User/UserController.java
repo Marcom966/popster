@@ -25,9 +25,9 @@ public class UserController {
     }
 
     @GetMapping(path = "{user_name}")
-    public String getSpecificUser(String user_name){
-        String specificUser = userService.getSpecificUser(user_name).toString();
-        return specificUser;
+    public String getSpecificUser(@PathVariable String user_name){
+        return userService.getSpecificUser(user_name).toString();
+
     }
 
     @PostMapping

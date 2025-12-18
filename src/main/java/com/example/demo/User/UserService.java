@@ -33,7 +33,7 @@ public class UserService {
     }
     public UserOfPopster getSpecificUser(String user_name){
         Optional<UserOfPopster> userName = utenteRepository.findUserByUserName(user_name);
-        return userName.orElse(null);
+        return userName.orElseThrow(() -> new IllegalStateException("Username not found"));
     }
 
     public void deleteUser(Long id){

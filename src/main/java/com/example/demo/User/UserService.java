@@ -45,17 +45,25 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(Long userId, String name, String eMail){
+    public void updateUser(Long userId, UpdateUserRequest req){
         UserOfPopster user  = utenteRepository.findById(userId).orElseThrow(()-> new IllegalStateException("user with id: "+userId+"does not exist"));
-        if(name!=null&&name.length()>0&&!Objects.equals(user.getName(), name)){
-            user.setName(name);
+        if(req.getName() != null){
+            user.setName(req.getName());
         }
-        if(eMail!=null&&eMail.length()>0&&!Objects.equals(user.geteMail(), eMail)){
-            Optional<UserOfPopster> userOpt = utenteRepository.findUserByEmail(eMail);
-            if(userOpt.isPresent()){
-                throw new IllegalStateException("email taken");
-            }
-        user.seteMail(eMail);
+        if(req.getSurname() != null){
+            user.setSurname(req.getSurname());
+        }
+        if(req.getBirth() != null){
+            user.setBirth(req.getBirth());
+        }
+        if(req.geteMail() != null && !Objects.equals(req.geteMail(), user.geteMail())){
+            utenteRepository.findUserByEmail(req.geteMail()).ifPresent(u -> {
+                        throw new IllegalStateException("email already exist");
+                    });
+            user.seteMail(req.geteMail());
+        };
+        if (req.getPassword() != null){
+            user.setPassword(req.getPassword());
         }
 
     }

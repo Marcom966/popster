@@ -41,8 +41,8 @@ public class UserController {
     }
 
     @PutMapping(path = "{user_id}")
-    public void putUser(@PathVariable("user_id") Long userId, @RequestParam(required = false) String name, @RequestParam(required = false) String eMail){
-        userService.updateUser(userId, name, eMail);
+    public void putUser(@PathVariable("user_id") Long user_id, @RequestBody UpdateUserRequest req){
+        userService.updateUser(user_id, req);
     }
 
 

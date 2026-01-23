@@ -62,6 +62,12 @@ public class UserService {
                     });
             user.seteMail(req.geteMail());
         };
+        if(req.getUser_name() != null&& !Objects.equals(req.getUser_name(), user.getUser_name())){
+            utenteRepository.findUserByUserName(req.getUser_name()).ifPresent(u -> {
+                throw new IllegalStateException("username already exist");
+            });
+            user.setUser_name(req.getUser_name());
+        }
         if (req.getPassword() != null){
             user.setPassword(req.getPassword());
         }

@@ -1,28 +1,31 @@
 package com.example.demo.User;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
 public class UpdateUserRequest {
 
+    @Getter
     private String name;
+    @Getter
     private String surname;
     private String eMail;
+    @Getter
     private String password;
     private LocalDate birth;
     private String role;
+    @Getter
+    @Setter
+    private String user_name;
+
+
 
     public UpdateUserRequest() {}
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
     }
 
     public void setSurname(String surname) {
@@ -35,10 +38,6 @@ public class UpdateUserRequest {
 
     public void seteMail(String eMail) {
         this.eMail = eMail;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {

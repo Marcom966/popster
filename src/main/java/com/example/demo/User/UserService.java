@@ -17,10 +17,12 @@ public class UserService {
     private String upDaterow;
     private storageRepo repo;
     private String UserId;
+    private String oldUserName;
 
     @Autowired
-    public UserService(UtenteRepository utenteRepository) {
+    public UserService(UtenteRepository utenteRepository, storageRepo repo) {
         this.utenteRepository = utenteRepository;
+        this.repo = repo;
     }
 
     public List<UserOfPopster> getStudents(){
@@ -73,17 +75,18 @@ public class UserService {
             });
             user.setUser_name(req.getUser_name());
             upDaterow = req.getUser_name();
+            oldUserName = user.getUser_name();
             UserId = userId.toString();
-            updateFileUserid(UserId, upDaterow);
+            List<fileToUpload> files = repo.findByUsernName(oldUserName);
+            for(fileToUpload file : files){
+                file.setUsernName(upDaterow);
+            }
+
         }
         if (req.getPassword() != null){
             user.setPassword(req.getPassword());
         }
 
     }
-
-    public void updateFileUserid (String id, String fieldToUpdate){
-        fileToUpload file = repo.findById(id).orElseThrow(()-> new RuntimeException("file not found"));
-        file.setUsernName(fieldToUpdate);
-    }
+    
 }

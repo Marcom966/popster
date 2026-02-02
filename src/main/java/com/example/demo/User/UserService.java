@@ -1,5 +1,7 @@
 package com.example.demo.User;
 
+import com.example.demo.file.fileToUpload;
+import com.example.demo.file.storageRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,9 @@ import java.util.Optional;
 public class UserService {
 
     private final UtenteRepository utenteRepository;
+    private String upDaterow;
+    private storageRepo repo;
+    private String UserId;
 
     @Autowired
     public UserService(UtenteRepository utenteRepository) {
@@ -67,10 +72,18 @@ public class UserService {
                 throw new IllegalStateException("username already exist");
             });
             user.setUser_name(req.getUser_name());
+            upDaterow = req.getUser_name();
+            UserId = userId.toString();
+            updateFileUserid(UserId, upDaterow);
         }
         if (req.getPassword() != null){
             user.setPassword(req.getPassword());
         }
 
+    }
+
+    public void updateFileUserid (String id, String fieldToUpdate){
+        fileToUpload file = repo.findById(id).orElseThrow(()-> new RuntimeException("file not found"));
+        file.setUsernName(fieldToUpdate);
     }
 }

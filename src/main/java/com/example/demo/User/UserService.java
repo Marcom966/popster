@@ -14,10 +14,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UtenteRepository utenteRepository;
-    private String upDaterow;
     private storageRepo repo;
-    private String UserId;
-    private String oldUserName;
 
     @Autowired
     public UserService(UtenteRepository utenteRepository, storageRepo repo) {
@@ -74,9 +71,9 @@ public class UserService {
                 throw new IllegalStateException("username already exist");
             });
             user.setUser_name(req.getUser_name());
-            upDaterow = req.getUser_name();
-            oldUserName = user.getUser_name();
-            UserId = userId.toString();
+            String oldUserName = user.getUser_name();
+            String upDaterow = req.getUser_name();
+            user.setUser_name(upDaterow);
             List<fileToUpload> files = repo.findByUsernName(oldUserName);
             for(fileToUpload file : files){
                 file.setUsernName(upDaterow);
@@ -88,5 +85,5 @@ public class UserService {
         }
 
     }
-    
+
 }

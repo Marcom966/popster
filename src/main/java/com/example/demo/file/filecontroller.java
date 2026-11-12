@@ -14,6 +14,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -28,6 +29,13 @@ public class filecontroller {
         this.filesService = filesService;
     }
 
+    @RestControllerAdvice
+    public static class GlobalExceptionHandler{
+        @ExceptionHandler(MaxUploadSizeExceededException.class)
+        public ResponseEntity<String> handleMaxSizeException(MaxUploadSizeExceededException ex) {
+            return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("file too large");
+        }
+    }
 
 
     @PostMapping
@@ -39,6 +47,10 @@ public class filecontroller {
             return  ResponseEntity.status(HttpStatus.OK).body(new responseMessage(message));
         }catch (Exception e){
             message = "Could not upload the file: "+file.getOriginalFilename() + "!";
+            String message2 = String.valueOf(ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new responseMessage(message)));
+            if(message2.contains("Maximum upload size exceeded")){
+                message = message2;
+            }
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new responseMessage(message));
         }
     }
@@ -58,6 +70,15 @@ public class filecontroller {
        ResponseEntity<byte[]> fileGeneral = filesService.getFile(id);
        fileToUpload file = filesService.getTheFile(id);
         String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(file.getId()).toUriString();
+        fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName(), fileGeneral.getBody(), file.getArtistName(), file.getSongName());
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"").body(fileRes);
+    }
+
+    @GetMapping("/songName")
+    public ResponseEntity<fileResponse> getFileJsonBySongName(@RequestParam String songName) {
+        ResponseEntity<byte[]> fileGeneral = filesService.getFile(songName);
+        fileToUpload file = filesService.getTheFile(songName);
+        String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/file/").path(file.getSongName()).toUriString();
         fileResponse fileRes = new fileResponse(file.getFileName(), file.getFileSize().length, fileUrl, file.getType(), file.getId(), file.getUsernName(), fileGeneral.getBody(), file.getArtistName(), file.getSongName());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"").body(fileRes);
     }
